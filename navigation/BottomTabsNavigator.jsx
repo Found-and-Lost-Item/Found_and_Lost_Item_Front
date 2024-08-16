@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import TopTabsNavigator from './TopTabsNavigator';
 import ItemDetails from '../screens/ItemDetails';
 import RegistrationModal from '../components/RegistrationModal';
-import Map from '../screens/Map';
+//import Map from '../screens/Map';
 
 const BottomTab = createBottomTabNavigator();
 

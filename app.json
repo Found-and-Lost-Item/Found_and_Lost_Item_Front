@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "LostItem",
+    "slug": "LostItem",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.LostItem.LongProject",
+      "config": {
+        "googleMapsApiKey": "AIzaSyC9cooHRN9mjqfagQKdNxgob6_F-zFfvbQ"
+      }
+
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff",
+        "bundleIdentifier": "com.LostItem.LongProject",
+      "config": {
+        "googleMapsApiKey": "AIzaSyC9cooHRN9mjqfagQKdNxgob6_F-zFfvbQ"
+      }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-asset"
+    ]
+  }
+}

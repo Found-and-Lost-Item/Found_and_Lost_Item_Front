@@ -42,8 +42,15 @@ export default function LostItems() {
     setFilteredData(sortedData);
   };
 
+  const handleSearch = (text) => {
+    const filtered = data.filter(item =>
+      item.lostTitle.toLowerCase().includes(text.toLowerCase()) ||
+      item.lostContent.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
   const handleItemPress = (item) => {
-    // 네비게이션에서 정확한 스택 화면으로 이동
     navigation.navigate('LostItemDetail', {
       LostAward: item.lostAward,
       LostCategory: item.lostCategory,
@@ -61,6 +68,7 @@ export default function LostItems() {
       <HeaderWithFilters
         onCategorySelect={handleCategorySelect}
         onSortSelect={handleSortSelect}
+        onSearch={handleSearch} // 검색 기능 연결
       />
       <FlatList
         data={filteredData}

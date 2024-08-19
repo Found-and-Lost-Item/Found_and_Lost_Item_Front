@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const categories = [
@@ -17,10 +17,11 @@ const categories = [
   '기타',
 ];
 
-
-const HeaderWithFilters = ({ onCategorySelect, onSortSelect }) => {
+export default function HeaderWithFilters({ onCategorySelect, onSortSelect, onSearch }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortModalVisible, setSortModalVisible] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   const handleCategoryPress = (category) => {
     if (selectedCategory === category) {
@@ -32,40 +33,67 @@ const HeaderWithFilters = ({ onCategorySelect, onSortSelect }) => {
     }
   };
 
+  const handleSearchToggle = () => {
+    setIsSearchActive(!isSearchActive);
+    if (isSearchActive) {
+      onSearch('');  // 검색이 비활성화될 때 검색어를 초기화
+      setSearchText('');
+    }
+  };
+
+  const handleSearch = (text) => {
+    setSearchText(text);
+    onSearch(text);  // 부모 컴포넌트에 검색어 전달
+  };
+
   return (
     <View>
       <View style={styles.headerContainer}>
-        <View style={styles.locationContainer}>
-          <Text style={styles.headerText}>주례동</Text>
-          <Icon name="arrow-drop-down" />
+        {isSearchActive ? (
+          <TextInput
+            style={styles.searchInput}
+            placeholder="검색어를 입력하세요"
+            value={searchText}
+            onChangeText={handleSearch}
+            autoFocus
+          />
+        ) : (
+          <View style={styles.locationContainer}>
+            <Text style={styles.headerText}>주례동</Text>
+            <Icon name="arrow-drop-down" />
+          </View>
+        )}
+        <TouchableOpacity onPress={handleSearchToggle}>
+          <Icon name={isSearchActive ? "close" : "search"} />
+        </TouchableOpacity>
+      </View>
+
+      {!isSearchActive && (
+        <View style={styles.filtersContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {categories.map((category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.categoryButton,
+                  selectedCategory === category && styles.selectedCategoryButton,
+                ]}
+                onPress={() => handleCategoryPress(category)}
+              >
+                <Text style={styles.categoryButtonText}>{category}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <TouchableOpacity
+            style={styles.sortButton}
+            onPress={() => setSortModalVisible(true)}
+          >
+            <Text style={styles.sortButtonText}>최신순</Text>
+            <Icon name="arrow-drop-down" />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <Icon name="search" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.filtersContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {categories.map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.categoryButton,
-                selectedCategory === category && styles.selectedCategoryButton,
-              ]}
-              onPress={() => handleCategoryPress(category)}
-            >
-              <Text style={styles.categoryButtonText}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        <TouchableOpacity
-          style={styles.sortButton}
-          onPress={() => setSortModalVisible(true)}
-        >
-          <Text style={styles.sortButtonText}>최신순</Text>
-          <Icon name="arrow-drop-down" />
-        </TouchableOpacity>
-      </View>
+      )}
+
       <Modal
         transparent={true}
         visible={sortModalVisible}
@@ -90,7 +118,7 @@ const HeaderWithFilters = ({ onCategorySelect, onSortSelect }) => {
       </Modal>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -109,6 +137,14 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 16,
     marginRight: 5,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+    fontSize: 16,
   },
   filtersContainer: {
     flexDirection: 'row',
@@ -161,5 +197,3 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
   },
 });
-
-export default HeaderWithFilters;

@@ -24,7 +24,7 @@ export default function LoginScreen() {
       // 로그인 성공 시, 다음 화면으로 이동합니다.
       navigation.navigate('Home');
       setShowError(false); // 로그인 성공 시 에러 메시지 숨김
-    } else {
+    } else { 
       setShowError(true); // 로그인 실패 시 에러 메시지 표시
     }
   };

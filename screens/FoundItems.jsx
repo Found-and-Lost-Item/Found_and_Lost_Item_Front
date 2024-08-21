@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, StyleSheet, Image } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import HeaderWithFilters from '../components/HeaderWithFilters';
+import { useNavigation } from '@react-navigation/native';
+import mockData from '../data/mockData';
 import axios from 'axios';
-import mockData from '../data/mockData'; // 목업 데이터
 
 export default function FoundItems() {
+  const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [sortOption, setSortOption] = useState('최신순');
@@ -25,7 +27,7 @@ export default function FoundItems() {
 
   const handleCategorySelect = (category) => {
     if (category) {
-      const filtered = data.filter(item => item.category === category);
+      const filtered = data.filter(item => item.foundCategory === category);
       setFilteredData(filtered);
     } else {
       setFilteredData(data);
@@ -37,16 +39,37 @@ export default function FoundItems() {
     let sortedData;
     switch (option) {
       case '최신순':
-        sortedData = [...filteredData].sort((a, b) => b.date - a.date);
+        sortedData = [...filteredData].sort((a, b) => new Date(b.foundDate) - new Date(a.foundDate));
         break;
       case '오래된 순':
-        sortedData = [...filteredData].sort((a, b) => a.date - b.date);
+        sortedData = [...filteredData].sort((a, b) => new Date(a.foundDate) - new Date(b.foundDate));
         break;
       case '이름순':
-        sortedData = [...filteredData].sort((a, b) => a.title.localeCompare(b.title));
+        sortedData = [...filteredData].sort((a, b) => a.foundTitle.localeCompare(b.foundTitle));
         break;
     }
     setFilteredData(sortedData);
+  };
+
+  const handleSearch = (text) => {
+    const filtered = data.filter(item =>
+      item.foundTitle.toLowerCase().includes(text.toLowerCase()) ||
+      item.foundContent.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  const handleItemPress = (item) => {
+    navigation.navigate('FoundItemDetail', {
+      FoundTitle: item.foundTitle,
+      //FoundContent: item.foundContent,
+      FoundAward: item.foundAward,
+      FoundImageUrl: item.foundImageUrl,
+      //FoundCategory: item.foundCategory,
+      //FoundDate: item.foundDate,
+      //FoundLatitude: item.foundLatitude,
+      //FoundLongitude: item.foundLongitude,
+    });
   };
 
   return (
@@ -54,16 +77,25 @@ export default function FoundItems() {
       <HeaderWithFilters
         onCategorySelect={handleCategorySelect}
         onSortSelect={handleSortSelect}
+        onSearch={handleSearch} // 검색 기능 연결
       />
       <FlatList
         data={filteredData}
         keyExtractor={(item, index) => item.id !== undefined ? item.id.toString() : index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Image source={{ uri: item.image }} style={styles.itemImage} />
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            <Text style={styles.itemReward}>사례금: {item.reward}</Text>
-          </View>
+          <TouchableOpacity onPress={() => handleItemPress(item)} style={styles.itemWrapper}>
+            <View style={styles.itemContainer}>
+              {item.foundImageUrl ? (
+                <Image source={typeof item.foundImageUrl === 'string' ? { uri: item.foundImageUrl } : item.foundImageUrl} style={styles.itemImage} />
+              ) : (
+                <View style={[styles.itemImage, styles.placeholder]}>
+                  <Text style={styles.placeholderText}>이미지 없음</Text>
+                </View>
+              )}
+              <Text style={styles.itemTitle}>{item.foundTitle}</Text>
+              <Text style={styles.itemReward}>사례금: {item.foundAward}</Text>
+            </View>
+          </TouchableOpacity>
         )}
         numColumns={2}
         columnWrapperStyle={styles.row}
@@ -79,7 +111,10 @@ const styles = StyleSheet.create({
   },
   row: {
     flex: 1,
-    justifyContent: 'space-around',
+  },
+  itemWrapper: {
+    flex: 1,
+    maxWidth: '50%',  // 각 아이템이 50%의 너비를 차지하도록 설정
   },
   itemContainer: {
     flex: 1,
@@ -97,6 +132,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 130,
     borderRadius: 10,
+  },
+  placeholder: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  placeholderText: {
+    color: '#999',
+    fontSize: 16,
   },
   itemTitle: {
     fontSize: 16,

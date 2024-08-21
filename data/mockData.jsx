@@ -86,7 +86,7 @@ const mockData = {
             id: 2,
             foundTitle: '열쇠 봤어요.',
             foundAward: '5,000',
-            foundImageUrl: null,
+            foundImageUrl: profile,
             foundCategory: '도서',
             foundDate: '2024-08-17',
             foundLatitude: '2',
@@ -95,7 +95,7 @@ const mockData = {
         },
     ],
     users: [
-        { username: '123', password: '123', name: '테스트 유저' },
+        { username: '11', password: '11', name: '테스트 유저' },
     ],
 };
 

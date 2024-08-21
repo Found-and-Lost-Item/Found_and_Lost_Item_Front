@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import axios from 'axios';
-// import { setToken } from './Management/TokenManagement';
-// import { setUser } from './Management/UserManagement';
-import mockData from '../data/mockData';
+import axios from 'axios';
+import { setToken } from './Management/TokenManagement';
+import { setUser } from './Management/UserManagement';
+//import mockData from '../data/mockData';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -12,47 +12,47 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
 
-  //목업데이터로 테스트 할 때
-  const handleLogin = () => {
-    // 목업 데이터에서 사용자를 찾음.
-    const user = mockData.users.find(
-      (user) => user.username === username && user.password === password
-    );
+  // //목업데이터로 테스트 할 때
+  // const handleLogin = () => {
+  //   // 목업 데이터에서 사용자를 찾음.
+  //   const user = mockData.users.find(
+  //     (user) => user.username === username && user.password === password
+  //   );
 
-    if (user) {
-      Alert.alert('로그인 성공!', `환영합니다, ${user.name}!`);
-      // 로그인 성공 시, 다음 화면으로 이동.
-      navigation.navigate('Home');
-      setShowError(false); // 로그인 성공 시 에러 메시지 숨김
-    } else { 
-      setShowError(true); // 로그인 실패 시 에러 메시지 표시
-    }
-  };
+  //   if (user) {
+  //     Alert.alert('로그인 성공!', `환영합니다, ${user.name}!`);
+  //     // 로그인 성공 시, 다음 화면으로 이동.
+  //     navigation.navigate('Home');
+  //     setShowError(false); // 로그인 성공 시 에러 메시지 숨김
+  //   } else { 
+  //     setShowError(true); // 로그인 실패 시 에러 메시지 표시
+  //   }
+  // };
 
 
   //백엔드와 통신할 때
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post('http://192.168.0.116:3000/auth/login_process', {
-  //       user_id: username,
-  //       user_password: password,
-  //     });
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://192.168.0.116:3000/auth/login_process', {
+        user_id: username,
+        user_password: password,
+      });
 
-  //     if (response.data.success) {
-  //       Alert.alert('로그인 성공!', `환영합니다, ${username}!`);
-  //       await setToken(response.data.token); // 토큰 저장
-  //       await setUser({ username }); // 유저 정보 저장
-  //       navigation.navigate('SignIn'); // 로그인 성공 시 메인 페이지로 이동
-  //       setShowError(false); // 로그인 성공 시 에러 메시지 숨김
-  //     } else {
-  //       setShowError(true); // 로그인 실패 시 에러 메시지 표시
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during login:', error);
-  //     Alert.alert('Error', 'An error occurred while logging in.');
-  //     setShowError(true);
-  //   }
-  // };
+      if (response.data.success) {
+        Alert.alert('로그인 성공!', `환영합니다, ${username}!`);
+        await setToken(response.data.token); // 토큰 저장
+        await setUser({ username }); // 유저 정보 저장
+        navigation.navigate('Home'); // 로그인 성공 시 메인 페이지로 이동
+        setShowError(false); // 로그인 성공 시 에러 메시지 숨김
+      } else {
+        setShowError(true); // 로그인 실패 시 에러 메시지 표시
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      Alert.alert('Error', 'An error occurred while logging in.');
+      setShowError(true);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   lostItemExpert: {
     
-    marginLeft: '6%', // 화면의 중앙에서 약간 왼쪽으로 이동
+    marginLeft: '5%', // 화면의 중앙에서 약간 왼쪽으로 이동
     width: '100%',
     maxWidth: 400,
     fontWeight: '700',
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   quickFindText: {
     
-    marginLeft: '6%', // 화면의 중앙에서 약간 왼쪽으로 이동
+    marginLeft: '5%', // 화면의 중앙에서 약간 왼쪽으로 이동
     width: '100%',
     maxWidth: 400,
     fontWeight: '400',

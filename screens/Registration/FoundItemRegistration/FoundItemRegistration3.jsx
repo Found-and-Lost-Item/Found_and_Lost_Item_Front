@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function FoundItemRegistration3() {
+export default function FoundItemRegistration3({navigation}) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   //const [region, setRegion] = useState('');
@@ -69,6 +69,7 @@ export default function FoundItemRegistration3() {
 
         if (response.data.success) {
             Alert.alert('등록 성공', '분실물이 성공적으로 등록되었습니다.');
+            navigation.navigate('Home');
         } else {
             Alert.alert('등록 실패', response.data.message || '알 수 없는 오류가 발생했습니다.');
         }

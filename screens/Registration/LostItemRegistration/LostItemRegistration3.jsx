@@ -45,8 +45,7 @@ export default function LostItemRegistration3({ navigation }) {
       if (response.data.success) {
         Alert.alert('등록 성공', '분실물이 성공적으로 등록되었습니다.');
         navigation.navigate('Home');
-
-        // 성공 시 추가적인 동작을 원하면 여기에 작성 (예: 화면 전환)
+        
       } else {
         Alert.alert('등록 실패', response.data.message || '알 수 없는 오류가 발생했습니다.');
       }

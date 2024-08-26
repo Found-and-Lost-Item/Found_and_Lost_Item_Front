@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import TopTabsNavigator from './TopTabsNavigator';
 import ItemDetails from '../screens/ItemDetails';
 import RegistrationModal from '../components/RegistrationModal';
+import MypageStack from './MypageStack';
 //import Map from '../screens/Map';
 
 const BottomTab = createBottomTabNavigator();
@@ -55,8 +56,8 @@ export default function BottomTabsNavigator({ navigation }) {
           },
         })}
       >
-        <BottomTab.Screen name="목록" component={TopTabsNavigator} options={{ tabBarLabel: '목록' }} />
-        <BottomTab.Screen name="지도" component={Map} options={{ tabBarLabel: '지도' }} />
+        <BottomTab.Screen name="목록" component={TopTabsNavigator} options={{ tabBarLabel: '목록', headerShown: false }}  />
+        <BottomTab.Screen name="지도" component={Map} options={{ tabBarLabel: '지도', headerShown: false }} />
         <BottomTab.Screen
           name="등록"
           options={{
@@ -72,8 +73,8 @@ export default function BottomTabsNavigator({ navigation }) {
         >
           {() => <RenderEmptyScreen />}
         </BottomTab.Screen>
-        <BottomTab.Screen name="채팅목록" component={ItemDetails} options={{ tabBarLabel: '채팅목록' }} />
-        <BottomTab.Screen name="내 정보" component={ItemDetails} options={{ tabBarLabel: '내 정보' }} />
+        <BottomTab.Screen name="채팅목록" component={ItemDetails} options={{ tabBarLabel: '채팅목록', headerTitleAlign: 'center' }} />
+        <BottomTab.Screen name="내 정보" component={MypageStack} options={{ tabBarLabel: '내 정보', headerShown: false }} />
       </BottomTab.Navigator>
       <RegistrationModal
         visible={isPopupVisible}

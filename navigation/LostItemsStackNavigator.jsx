@@ -10,7 +10,10 @@ export default function LostItemsStackNavigator() {
       <Stack.Screen
         name="LostItemDetail"
         component={LostItemDetail}
-        options={{ title: '분실물 상세보기' }}
+        options={{ 
+          title: '분실물 상세보기',
+          headerTitleAlign: 'center'
+        }}
       />
     </Stack.Navigator>
   );

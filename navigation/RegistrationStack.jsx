@@ -11,7 +11,10 @@ const Stack = createStackNavigator();
 
 export function LostRegistrationStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+      headerTitleAlign: 'center', // 스택 스크린에 공통으로 적용
+    }}>
       <Stack.Screen name="LostItemRegistration1" component={LostItemRegistration1} options={{ title: '물건을 잃어버렸어요!' }} />
       <Stack.Screen name="LostItemRegistration2" component={LostItemRegistration2} options={{ title: '물건을 잃어버렸어요!' }} />
       <Stack.Screen name="LostItemRegistration3" component={LostItemRegistration3} options={{ title: '물건을 잃어버렸어요!' }} />
@@ -21,7 +24,10 @@ export function LostRegistrationStack() {
 
 export function FoundRegistrationStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+      headerTitleAlign: 'center', // 스택 스크린에 공통으로 적용
+    }}>
       <Stack.Screen name="FoundItemRegistration1" component={FoundItemRegistration1} options={{ title: '물건을 주웠어요!' }} />
       <Stack.Screen name="FoundItemRegistration2" component={FoundItemRegistration2} options={{ title: '물건을 주웠어요!' }} />
       <Stack.Screen name="FoundItemRegistration3" component={FoundItemRegistration3} options={{ title: '물건을 주웠어요!' }} />

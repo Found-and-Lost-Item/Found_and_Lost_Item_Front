@@ -4,12 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { setToken } from './Management/TokenManagement';
 import { setUser } from './Management/UserManagement';
-import MyPageHome from './MyPage/MyPageHome';
+import BottomTabsNavigator from '../navigation/BottomTabsNavigator';
 import { UserContext } from '../context/UserContext';
 import mockData from '../data/mockData';
 
-export default function LoginScreen() {
-  const navigation = useNavigation();
+export default function LoginScreen({navigation}) {
   const { setUser } = useContext(UserContext);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -37,7 +36,7 @@ export default function LoginScreen() {
       });
 
       // 로그인 성공 시, 다음 화면으로 이동.
-      navigation.navigate('MypageStack', { screen: 'MyPageHome' });
+      navigation.navigate('Home');
       setShowError(false); // 로그인 성공 시 에러 메시지 숨김
     } else { 
       setShowError(true); // 로그인 실패 시 에러 메시지 표시

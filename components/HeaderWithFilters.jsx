@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
+import axios from 'axios';
 
+// 카테고리 배열 정의
 const categories = [
   '전자기기',
   '지갑',
@@ -29,7 +31,10 @@ export default function HeaderWithFilters({ onCategorySelect, onSortSelect, onSe
       onCategorySelect(null);
     } else {
       setSelectedCategory(category);
-      onCategorySelect(category);
+      // 선택한 카테고리를 코드화하여 API 요청에 사용
+      const categoryCode = categories.indexOf(category) + 1; // 카테고리를 코드화 (예: '전자기기'가 1번)
+      console.log("categoryCode :", categoryCode);
+      onCategorySelect(categoryCode);
     }
   };
 

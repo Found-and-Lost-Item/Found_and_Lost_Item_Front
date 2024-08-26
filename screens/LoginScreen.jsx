@@ -1,28 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//import axios from 'axios';
-//import { setToken } from './Management/TokenManagement';
-//import { setUser } from './Management/UserManagement';
+import axios from 'axios';
+import { setToken } from './Management/TokenManagement';
+import { setUser } from './Management/UserManagement';
+import MyPageHome from './MyPage/MyPageHome';
+import { UserContext } from '../context/UserContext';
 import mockData from '../data/mockData';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  const [username, setUsername] = useState('');
+  const { setUser } = useContext(UserContext);
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
 
-  //목업데이터로 테스트 할 때
+  // //목업데이터로 테스트 할 때
   const handleLogin = () => {
     // 목업 데이터에서 사용자를 찾음.
     const user = mockData.users.find(
-      (user) => user.username === username && user.password === password
+      (user) => user.user_id === userId && user.user_password === password
     );
 
     if (user) {
-      Alert.alert('로그인 성공!', `환영합니다, ${user.name}!`);
+      Alert.alert('로그인 성공!', `환영합니다!`);
+
+      setUser({
+        id: user.id,
+        user_id: user.user_id,
+        user_phone_number: user.user_phone_number,
+        user_name: user.user_name,
+        user_profile_image: user.user_profile_image,
+        user_address: user.user_address,
+        user_detailed_address: user.user_detailed_address,
+        user_nickname: user.user_nickname,
+      });
+
       // 로그인 성공 시, 다음 화면으로 이동.
-      navigation.navigate('Home');
+      navigation.navigate('MypageStack', { screen: 'MyPageHome' });
       setShowError(false); // 로그인 성공 시 에러 메시지 숨김
     } else { 
       setShowError(true); // 로그인 실패 시 에러 메시지 표시
@@ -30,19 +45,33 @@ export default function LoginScreen() {
   };
 
 
-  // //백엔드와 통신할 때
+  //백엔드와 통신할 때
   // const handleLogin = async () => {
   //   try {
-  //     const response = await axios.post('http://192.168.0.116:3000/auth/login_process', {
-  //       user_id: username,
+  //     const response = await axios.post('http://192.168.0.82:3000/auth/login_process', {
+  //       user_id: userId,
   //       user_password: password,
   //     });
 
   //     if (response.data.success) {
-  //       Alert.alert('로그인 성공!', `환영합니다, ${username}!`);
+  //       Alert.alert('로그인 성공!', `환영합니다, ${userId}!`);
+
+  //       // 서버에서 받아온 사용자 정보를 Context에 저장
+  //       setUser({
+  //         id: userData.id,
+  //         user_id: userData.user_id,
+  //         user_phone_number: userData.user_phone_number,
+  //         user_password: userData.user_password, // 비밀번호를 저장하는 것은 보안상 권장되지 않음
+  //         user_name: userData.user_name,
+  //         user_profile_image: userData.user_profile_image,
+  //         user_address: userData.user_address,
+  //         user_detailed_address: userData.user_detailed_address,
+  //         user_nickname: userData.user_nickname,
+  //       });
+
   //       await setToken(response.data.token); // 토큰 저장
-  //       await setUser({ username }); // 유저 정보 저장
-  //       navigation.navigate('Home'); // 로그인 성공 시 메인 페이지로 이동
+  //       // await setUser({ username }); // 유저 정보 저장
+  //       navigation.navigate('MypageStack', { screen: 'MyPageHome' });
   //       setShowError(false); // 로그인 성공 시 에러 메시지 숨김
   //     } else {
   //       setShowError(true); // 로그인 실패 시 에러 메시지 표시
@@ -63,8 +92,8 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="아이디를 입력해주세요."
-        value={username}
-        onChangeText={setUsername}
+        value={userId}
+        onChangeText={setUserId}
       />
       <TextInput
         style={styles.input}

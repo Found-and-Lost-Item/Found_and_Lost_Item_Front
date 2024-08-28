@@ -15,7 +15,7 @@ export default function IdFind() {  // 파일 이름과 동일하게 설정
     try {
       console.log('Sending request to backend with phone number:', phoneNumber); // 요청 전 로그
   
-      const response = await axios.post('http://192.168.0.116:3000/find/find_id', {
+      const response = await axios.post('http://20.30.17.16:3000/find/find_id', {
         phone_number: phoneNumber,
       });
   

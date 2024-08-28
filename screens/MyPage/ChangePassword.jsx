@@ -4,7 +4,7 @@ import axios from 'axios';
 import { UserContext } from '../../context/UserContext';
 
 export default function ChangePassword({ navigation, route }) {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -12,10 +12,10 @@ export default function ChangePassword({ navigation, route }) {
   const handleNext = async () => {
     console.log('비밀번호 등록 버튼 클릭');
   
-    if (currentPassword !== user.user_password) {
-      Alert.alert('현재 비밀번호가 일치하지 않습니다.');
-      return;
-    }
+    // if (currentPassword !== user.user_password) {
+    //   Alert.alert('현재 비밀번호가 일치하지 않습니다.');
+    //   return;
+    // }
 
     if (newPassword !== confirmNewPassword) {
       Alert.alert('새 비밀번호가 일치하지 않습니다.');
@@ -23,11 +23,15 @@ export default function ChangePassword({ navigation, route }) {
     }
 
     try {
+      console.log(user.user_id, currentPassword);
       // 서버로 비밀번호 변경 요청
-      const response = await axios.post('http://192.168.0.116:3000/find/change_password', { 
+      const response = await axios.post('http://20.30.17.16:3000/password/reset_password', { 
         user_id: user.user_id,
+        current_password: currentPassword,
         new_password: newPassword 
       });
+
+      console.log('Server response:', response.data);
 
       if (response.data.success) {
         Alert.alert('비밀번호가 성공적으로 변경되었습니다.');

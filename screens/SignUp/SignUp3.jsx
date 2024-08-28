@@ -25,7 +25,7 @@ export default function SignUp3() {
     };
 console.log("signup3", finalUserData);
     try {
-      const response = await axios.post('http://192.168.0.116:3000/auth/register', finalUserData);
+      const response = await axios.post('http://20.30.17.16:3000/auth/register', finalUserData);
       if (response.data.success) {
         Alert.alert('회원가입 성공');
         navigation.navigate('Login');

@@ -25,7 +25,7 @@ export default function ChangeAddress({ navigation }) {
       user_detailed_address: detailedAddress,
     };
     try {
-      const response = await axios.post('http://192.168.0.116:3000/auth/register', finalUserData);
+      const response = await axios.post('http://20.30.17.16:3000/auth/register', finalUserData);
       if (response.data.success) {
         Alert.alert('주소 변경이 완료되었습니다.');
         navigation.navigate('MypageStack');

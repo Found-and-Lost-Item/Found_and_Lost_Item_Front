@@ -230,7 +230,7 @@ export default function LostItemRegistration3({ navigation }) {
       console.log('LostItemData3 :', LostItemData3);
 
       // 서버로 POST 요청 보내기
-      const response = await axios.post('http://192.168.0.82:3000/add/submitLostItem', formData, {
+      const response = await axios.post('http://20.30.17.16:3000/add/submitLostItem', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

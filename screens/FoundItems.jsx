@@ -13,7 +13,7 @@ export default function FoundItems() {
 
   useEffect(() => {
     // 백엔드에서 데이터 가져오기
-    axios.get('http://192.168.0.82:3000/found/viewFoundItems')
+    axios.get('http://20.30.17.16:3000/found/viewFoundItems')
       .then(response => {
         if (response.data.success) {
           const fetchedData = response.data.data; // 여기서 data 속성 안의 배열을 사용
@@ -43,7 +43,7 @@ export default function FoundItems() {
       setSortOption(option);
   
       // 서버에 정렬 옵션을 포함하여 요청을 보냅니다.
-      const response = await axios.get('http://192.168.0.82:3000/found/viewFoundItems', {
+      const response = await axios.get('http://20.30.17.16:3000/found/viewFoundItems', {
         params: { order: option === '이름순' ? 'nameorder' : option === '오래된 순' ? 'oldest' : '최신순' }
       });
   

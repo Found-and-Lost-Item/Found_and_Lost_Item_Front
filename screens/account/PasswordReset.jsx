@@ -20,7 +20,7 @@ export default function PasswordResetScreen() {
       console.log('Sending request with params:', params);
   
       // 서버에 userId와 phoneNumber를 전송하여 인증 요청
-      const response = await axios.post('http://192.168.0.116:3000/find/find_password', params);
+      const response = await axios.post('http://20.30.17.16:3000/find/find_password', params);
   
       if (response.data.exists) {
         setIsVerificationSent(true); // 인증 요청 완료 상태로 변경

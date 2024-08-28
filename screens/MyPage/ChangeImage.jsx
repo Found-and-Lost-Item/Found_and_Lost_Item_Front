@@ -9,7 +9,7 @@ import { UserContext } from '../../context/UserContext';
 export default function ChangeImage({ navigation, route }) {
   const { user } = useContext(UserContext);
 
-  // const [nickname, setNickname] = useState('');
+  const [name, setName] = useState('');
   const [imageUri, setImageUri] = useState(null);
 
   // useEffect(() => {
@@ -59,13 +59,13 @@ export default function ChangeImage({ navigation, route }) {
   };
 
   const handleSubmit = async () => {
-    // const updatedUserData = { ...userData, user_name: nickname, user_profile_image: imageUri };
-    // console.log('ChangeImage userData:', updatedUserData);
+    const updatedUserData = { ...userData, user_name: name, user_profile_image: imageUri };
+    console.log('ChangeImage userData:', updatedUserData);
 
     // 아래의 주석 처리된 부분은 백엔드와 연결하는 코드입니다.
-    /*
+    
     try {
-      const response = await axios.post('YOUR_BACKEND_URL', updatedUserData);
+      const response = await axios.post('http://20.30.17.16:3000/profile/update_profile', updatedUserData);
       console.log('서버 응답:', response.data);
       // 네비게이션
       navigation.navigate('MyPageHome', { userData: response.data });
@@ -73,11 +73,11 @@ export default function ChangeImage({ navigation, route }) {
       console.error('서버와의 연결 오류:', error);
       Alert.alert('오류', '프로필 업데이트 중 오류가 발생했습니다.');
     }
-    */
+    
 
     // 백엔드 연결 없이 프론트에서 데이터 확인
     // navigation.navigate('MyPageHome', { userData: updatedUserData });
-    navigation.navigate('MyPageHome');
+    // navigation.navigate('MyPageHome');
   };
 
   return (
@@ -93,9 +93,9 @@ export default function ChangeImage({ navigation, route }) {
       <View style={styles.inputContainer}>
         <TextInput 
           style={styles.inputBox} 
-          // value={nickname}
-          // onChangeText={setNickname}
-          placeholder={user.user_nickname}
+          value={name}
+          onChangeText={setName}
+          placeholder={user.user_name}
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>

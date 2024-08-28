@@ -16,72 +16,90 @@ export default function LoginScreen() {
   const [showError, setShowError] = useState(false);
 
   // //목업데이터로 테스트 할 때
-  const handleLogin = () => {
-    // 목업 데이터에서 사용자를 찾음.
-    const user = mockData.users.find(
-      (user) => user.user_id === userId && user.user_password === password
-    );
+  // const handleLogin = () => {
+  //   // 목업 데이터에서 사용자를 찾음.
+  //   const user = mockData.users.find(
+  //     (user) => user.user_id === userId && user.user_password === password
+  //   );
 
-    if (user) {
-      Alert.alert('로그인 성공!', `환영합니다!`);
+  //   if (user) {
+  //     Alert.alert('로그인 성공!', `환영합니다!`);
 
-      setUser({
-        id: user.id,
-        user_id: user.user_id,
-        user_phone_number: user.user_phone_number,
-        user_name: user.user_name,
-        user_profile_image: user.user_profile_image,
-        user_address: user.user_address,
-        user_detailed_address: user.user_detailed_address,
-        user_nickname: user.user_nickname,
-      });
+  //     setUser({
+  //       id: user.id,
+  //       user_id: user.user_id,
+  //       user_phone_number: user.user_phone_number,
+  //       user_name: user.user_name,
+  //       user_profile_image: user.user_profile_image,
+  //       user_address: user.user_address,
+  //       user_detailed_address: user.user_detailed_address,
+  //       user_nickname: user.user_nickname,
+  //     });
 
-      // 로그인 성공 시, 다음 화면으로 이동.
-      navigation.navigate('Home');
-      setShowError(false); // 로그인 성공 시 에러 메시지 숨김
-    } else { 
-      setShowError(true); // 로그인 실패 시 에러 메시지 표시
-    }
-  };
+  //     // 로그인 성공 시, 다음 화면으로 이동.
+  //     navigation.navigate('Home');
+  //     setShowError(false); // 로그인 성공 시 에러 메시지 숨김
+  //   } else { 
+  //     setShowError(true); // 로그인 실패 시 에러 메시지 표시
+  //   }
+  // };
 
 
   //백엔드와 통신할 때
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post('http://192.168.0.82:3000/auth/login_process', {
-  //       user_id: userId,
-  //       user_password: password,
-  //     });
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://20.30.17.16:3000/auth/login_process', {
+        user_id: userId,
+        user_password: password,
+      });
 
-  //     if (response.data.success) {
-  //       Alert.alert('로그인 성공!', `환영합니다, ${userId}!`);
+      if (response.data.success) {
+        const {token, user} = response.data;
+        Alert.alert('로그인 성공!', `환영합니다, ${userId}!`);
+        setToken(token);
+        setUser(user);
 
-  //       // 서버에서 받아온 사용자 정보를 Context에 저장
-  //       setUser({
-  //         id: userData.id,
-  //         user_id: userData.user_id,
-  //         user_phone_number: userData.user_phone_number,
-  //         user_password: userData.user_password, // 비밀번호를 저장하는 것은 보안상 권장되지 않음
-  //         user_name: userData.user_name,
-  //         user_profile_image: userData.user_profile_image,
-  //         user_address: userData.user_address,
-  //         user_detailed_address: userData.user_detailed_address,
-  //         user_nickname: userData.user_nickname,
-  //       });
+        // await setToken(response.data.token); // 토큰 저장
+        // const decodedUser = jwtDecode(token); // 토큰을 디코드하여 사용자 정보를 추출
 
-  //       await setToken(response.data.token); // 토큰 저장
-  //       // await setUser({ username }); // 유저 정보 저장
-  //       navigation.navigate('MypageStack', { screen: 'MyPageHome' });
-  //       setShowError(false); // 로그인 성공 시 에러 메시지 숨김
-  //     } else {
-  //       setShowError(true); // 로그인 실패 시 에러 메시지 표시
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during login:', error);
-  //     Alert.alert('Error', 'An error occurred while logging in.');
-  //     setShowError(true);
-  //   }
-  // };
+      // setUser({
+      //   id: decodedUser.id,
+      //   user_id: decodedUser.user_id,
+      //   user_phone_number: decodedUser.user_phone_number,
+      //   user_name: decodedUser.user_name,
+      //   user_profile_image: decodedUser.user_profile_image,
+      //   user_address: decodedUser.user_address,
+      //   user_detailed_address: decodedUser.user_detailed_address,
+      //   user_nickname: decodedUser.user_nickname,
+      // });
+
+
+
+
+
+        // await setUser({ 
+        //   id: user.id,
+        //   user_id: user.user_id,
+        //   user_phone_number: user.user_phone_number,
+        //   user_password: user.user_password,
+        //   user_password2: user.user_password2,
+        //   user_name: user.user_name,
+        //   user_profile_image: user.user_profile_image,
+        //   user_address: user.user_address,
+        //   user_detailed_address: user.user_detailed_address,
+        //   user_detailed_address: user.user_detailed_address,
+        //  }); // 유저 정보 저장
+        navigation.navigate('Home');
+        setShowError(false); // 로그인 성공 시 에러 메시지 숨김
+      } else {
+        setShowError(true); // 로그인 실패 시 에러 메시지 표시
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      Alert.alert('Error', 'An error occurred while logging in.');
+      setShowError(true);
+    }
+  };
 
   return (
     <View style={styles.container}>

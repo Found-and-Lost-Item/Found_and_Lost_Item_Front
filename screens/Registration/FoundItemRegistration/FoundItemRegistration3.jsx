@@ -287,7 +287,7 @@ export default function FoundItemRegistration3({ navigation }) {
         console.log("FoundItemData3:", FoundItemData3);
 
         // 서버로 POST 요청 보내기
-        const response = await axios.post('http://192.168.0.82:3000/found/submitFoundItem', formData, {
+        const response = await axios.post('http://20.30.17.16:3000/found/submitFoundItem', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

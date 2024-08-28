@@ -201,7 +201,7 @@ export default function PasswordRegister({ route }) {
     try {
       console.log('Sending request to backend with phone number:', password); // 요청 전 로그
       // 서버로 비밀번호 변경 요청
-      const response = await axios.post('http://192.168.0.116:3000/find/change_password', { 
+      const response = await axios.post('http://20.30.17.16:3000/find/change_password', { 
         user_id: userId,
         phone_number: phoneNumber,
         new_password: password 

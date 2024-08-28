@@ -14,7 +14,7 @@ export default function SignUp1() {
 
   const checkDuplicateUserId = async () => {
     try {
-      const response = await axios.get('http://192.168.0.116:3000/auth/check_duplicate', {
+      const response = await axios.get('http://20.30.17.16:3000/auth/check_duplicate', {
         params: {
           user_id: userId
         }
